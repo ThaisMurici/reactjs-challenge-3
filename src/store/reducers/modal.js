@@ -3,7 +3,7 @@ export default function modal(state = false, action) {
     case 'SHOW_MODAL':
       return true;
     case 'HIDE_MODAL':
-      return true;
+      return false;
     default:
       return state;
   }

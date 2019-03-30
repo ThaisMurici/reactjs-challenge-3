@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { bindActionCreators } from 'redux';
 import {
   Background, ModalContainer, Form, Div, Button,
 } from './styles';
 
+import * as UserActions from '../../store/actions/users';
+
 class Modal extends Component {
   static propTypes = {
     showModal: PropTypes.bool.isRequired,
+    addUserRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -17,7 +21,10 @@ class Modal extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
+
+    const { addUserRequest } = this.props;
+    const { modalInput } = this.state;
+    addUserRequest(modalInput);
   };
 
   render() {
@@ -59,4 +66,9 @@ const mapStateToProps = state => ({
   showModal: state.modal,
 });
 
-export default connect(mapStateToProps)(Modal);
+const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Modal);
