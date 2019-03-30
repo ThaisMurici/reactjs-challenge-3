@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 
+import './config/ReactotronConfig';
+
 import GlobalStyle from './styles/global';
 import UserList from './components/UserList';
 import Map from './components/Map';
