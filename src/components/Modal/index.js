@@ -8,10 +8,12 @@ import {
 } from './styles';
 
 import * as UserActions from '../../store/actions/users';
+import * as ModalActions from '../../store/actions/modal';
 
 class Modal extends Component {
   static propTypes = {
-    showModal: PropTypes.bool.isRequired,
+    showModalOnScreen: PropTypes.bool.isRequired,
+    hideModal: PropTypes.func.isRequired,
     addUserRequest: PropTypes.func.isRequired,
   };
 
@@ -27,11 +29,16 @@ class Modal extends Component {
     addUserRequest(modalInput);
   };
 
+  cancel = () => {
+    const { hideModal } = this.props;
+    hideModal();
+  };
+
   render() {
     const { modalInput } = this.state;
-    const { showModal } = this.props;
+    const { showModalOnScreen } = this.props;
     return (
-      showModal && (
+      showModalOnScreen && (
         <Background>
           <ModalContainer>
             <Div align="center">
@@ -63,10 +70,10 @@ class Modal extends Component {
 }
 
 const mapStateToProps = state => ({
-  showModal: state.modal,
+  showModalOnScreen: state.modal,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ ...UserActions, ...ModalActions }, dispatch);
 
 export default connect(
   mapStateToProps,
