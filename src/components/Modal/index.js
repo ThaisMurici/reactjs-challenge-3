@@ -21,6 +21,16 @@ class Modal extends Component {
     modalInput: '',
   };
 
+  componentDidMount() {
+    window.addEventListener('keyup', this.handleKeyUp, false);
+    document.addEventListener('click', this.handleOutsideClick, false);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleKeyUp, false);
+    document.removeEventListener('click', this.handleOutsideClick, false);
+  }
+
   handleFormSubmit = (event) => {
     event.preventDefault();
 
@@ -34,13 +44,39 @@ class Modal extends Component {
     hideModal();
   };
 
+  handleKeyUp = (e) => {
+    const { hideModal } = this.props;
+    const keys = {
+      27: () => {
+        e.preventDefault();
+        hideModal();
+      },
+    };
+
+    if (keys[e.keyCode]) {
+      keys[e.keyCode]();
+    }
+  };
+
+  handleOutsideClick = (e) => {
+    const { hideModal } = this.props;
+
+    if (this.modalRef && !this.modalRef.contains(e.target)) {
+      hideModal();
+    }
+  };
+
+  assignReference = (node) => {
+    this.modalRef = node;
+  };
+
   render() {
     const { modalInput } = this.state;
     const { showModalOnScreen } = this.props;
     return (
       showModalOnScreen && (
         <Background>
-          <ModalContainer>
+          <ModalContainer ref={node => this.assignReference(node)}>
             <Div align="center">
               <p>Add new user</p>
             </Div>
