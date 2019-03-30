@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
-
 import ReactMapGL, { Marker } from 'react-map-gl';
-// import { Container } from './styles';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { bindActionCreators } from 'redux';
+import * as ModalActions from '../../store/actions/modal';
+import * as LocationActions from '../../store/actions/location';
 
 class Map extends Component {
+  static propTypes = {
+    showModal: PropTypes.func.isRequired,
+    setClickedLocation: PropTypes.func.isRequired,
+  };
+
   state = {
     viewport: {
       width: window.innerWidth,
@@ -36,7 +45,10 @@ class Map extends Component {
 
   handleMapClick = (event) => {
     const [latitude, longitude] = event.lngLat;
-    alert(`Latitude: ${latitude} \nLongitude: ${longitude}`);
+    const { showModal, setClickedLocation } = this.props;
+    console.tron.log(this.props);
+    showModal();
+    setClickedLocation(latitude, longitude);
   };
 
   render() {
@@ -70,4 +82,9 @@ class Map extends Component {
   }
 }
 
-export default Map;
+const mapDispatchToProps = dispatch => bindActionCreators({ ...ModalActions, ...LocationActions }, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Map);
