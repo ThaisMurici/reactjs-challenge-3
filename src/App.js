@@ -1,7 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import './config/ReactotronConfig';
+import 'react-toastify/dist/ReactToastify.css';
 
 import GlobalStyle from './styles/global';
 import UserList from './components/UserList';
@@ -16,6 +18,7 @@ const App = () => (
     <Map />
     <UserList />
     <Modal />
+    <ToastContainer autoClose={5000} />
   </Provider>
 );
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 
 import { bindActionCreators } from 'redux';
@@ -36,7 +37,14 @@ class Modal extends Component {
 
     const { addUserRequest } = this.props;
     const { modalInput } = this.state;
-    addUserRequest(modalInput);
+
+    if (modalInput) {
+      addUserRequest(modalInput);
+    } else {
+      toast.error('Username is empty.', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   };
 
   cancel = () => {
