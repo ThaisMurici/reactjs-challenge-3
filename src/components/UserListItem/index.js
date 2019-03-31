@@ -2,19 +2,23 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+
+import { bindActionCreators } from 'redux';
+import * as UserActions from '../../store/actions/users';
 
 import {
   Container, Avatar, UserInfo, Button,
 } from './styles';
 
-const UserListItem = ({ user }) => (
+const UserListItem = ({ user, removeUser }) => (
   <Container>
     <Avatar src={user.avatar} />
     <UserInfo>
       <p className="name">{user.name}</p>
       <p className="login">{user.login}</p>
     </UserInfo>
-    <Button onClick={() => {}} type="danger">
+    <Button onClick={() => removeUser(user.id)} type="danger">
       <FontAwesomeIcon className="icon" icon={faTimesCircle} />
     </Button>
     <Button onClick={() => {}} type="normal">
@@ -29,6 +33,12 @@ UserListItem.propTypes = {
     username: PropTypes.string,
     avatar: PropTypes.string,
   }).isRequired,
+  removeUser: PropTypes.func.isRequired,
 };
 
-export default UserListItem;
+const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(UserListItem);

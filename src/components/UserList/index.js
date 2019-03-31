@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import { bindActionCreators } from 'redux';
-import * as UserActions from '../../store/actions/users';
-
 import { Container } from './styles';
 import UserListItem from '../UserListItem';
 
@@ -28,9 +25,4 @@ const mapStateToProps = state => ({
   users: state.users,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UserList);
+export default connect(mapStateToProps)(UserList);
